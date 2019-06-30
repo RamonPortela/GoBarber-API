@@ -20,6 +20,7 @@ routes.post('/sessions', SessionController.store);
 
 routes.get('/providers', authMiddleware, ProviderController.index);
 
+routes.get('/appointments', authMiddleware, AppoitmentController.index);
 routes.post('/appointments', authMiddleware, AppoitmentController.store);
 
 routes.post(
