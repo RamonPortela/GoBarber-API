@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 import express from 'express';
 import { resolve } from 'path';
 import Youch from 'youch';
@@ -36,10 +38,14 @@ class App {
 
   exceptionHandler() {
     this.server.use(async (err, req, res, next) => {
-      const youch = new Youch(err, req);
-      const errors = await youch.toJSON();
+      if (process.env.NODE_ENV === 'development') {
+        const youch = new Youch(err, req);
+        const errors = await youch.toJSON();
 
-      return res.status(500).json(errors);
+        return res.status(500).json(errors);
+      }
+
+      return res.status(500).json({ error: 'Internal server error' });
     });
   }
 }
