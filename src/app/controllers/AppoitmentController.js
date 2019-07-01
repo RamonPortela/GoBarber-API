@@ -46,6 +46,11 @@ class AppointmentController {
 
     const { provider_id, date } = req.body;
 
+    if (req.userId === provider_id)
+      return res
+        .status(400)
+        .json({ error: "You can't schedule an appointment with your ownself" });
+
     const hourStart = startOfHour(parseISO(date));
     if (isBefore(hourStart, new Date())) {
       return res.status(400).json({ error: 'Past dates are not permitted' });
